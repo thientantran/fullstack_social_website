@@ -10,6 +10,7 @@ import path from "path";
 import { fileURLToPath } from "url";
 import { register } from "./controllers/auth.js";
 import authRouter from "./routes/auth.js";
+import userRouter from "./routes/user.js";
 // CONFIGURATIONs
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
@@ -42,7 +43,7 @@ app.use("/auth/register",upload.single('picture'), register)
 // chỗ này vẫn chưa hài lòng lắm vì ko thể đưa vào route được, khi export cái upload này, rồi gắn hàm vào route thì ko chạy được, ==> fix sau
 
 app.use("/auth", authRouter)
-
+app.use("/users", userRouter)
 const PORT = process.env.PORT || 6001;
 mongoose
   .connect(process.env.MONGO_URL, {
