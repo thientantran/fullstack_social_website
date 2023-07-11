@@ -9,6 +9,8 @@ import multer from "multer";
 import path from "path";
 import { fileURLToPath } from "url";
 import { register } from "./controllers/auth.js";
+import { createPost } from "./controllers/post.js";
+import { verifyToken } from "./middleware/auth.js";
 import authRouter from "./routes/auth.js";
 import userRouter from "./routes/user.js";
 // CONFIGURATIONs
@@ -41,6 +43,7 @@ const upload = multer({ storage })
 app.use("/auth/register",upload.single('picture'), register)
 // app.use("/auth/upload",verifyToken, upload.single('picture'), register) //test middle ware
 // chỗ này vẫn chưa hài lòng lắm vì ko thể đưa vào route được, khi export cái upload này, rồi gắn hàm vào route thì ko chạy được, ==> fix sau
+app.use("/post/createpost", verifyToken, upload.single("picture"),createPost)
 
 app.use("/auth", authRouter)
 app.use("/users", userRouter)
