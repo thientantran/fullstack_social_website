@@ -8,6 +8,7 @@ import morgan from "morgan";
 import multer from "multer";
 import path from "path";
 import { fileURLToPath } from "url";
+import { register } from "./controllers/auth.js";
 import authRouter from "./routes/auth.js";
 // CONFIGURATIONs
 const __filename = fileURLToPath(import.meta.url)
@@ -35,6 +36,9 @@ const storage = multer.diskStorage({
 })
 
 const upload = multer({ storage })
+
+app.use("/auth/register", upload.single('picture'), register)
+// chỗ này vẫn chưa hài lòng lắm vì ko thể đưa vào route được, khi export cái upload này, rồi gắn hàm vào route thì ko chạy được, ==> fix sau
 
 app.use("/auth", authRouter)
 
