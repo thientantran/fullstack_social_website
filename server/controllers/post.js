@@ -44,3 +44,28 @@ export const getUserPosts = async(req, res) => {
     res.status(404).json({error: err.message})
   }
 }
+
+export const likePost = async(req, res) => {
+  try {
+    const {postId} = req.params;
+    const {userId} = req.body;
+    const post = await Post.findById(postId);
+    const isLiked = post['likes'].get(userId)
+    console.log("isLiked: ",isLiked)
+    if(isLiked){
+      post['likes'].delete(userId)
+    }else{
+      post['likes'].set(userId, true)
+    }
+    console.log('call 2',post)
+
+    const updatedPost = await Post.findByIdAndUpdate(
+      postId,
+      {likes: post.likes},
+      {new: true} //new object => true
+    )
+    res.status(200).json(updatedPost)
+  } catch (err) {
+    res.status(404).json({error:err.message})
+  }
+}
