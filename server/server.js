@@ -12,6 +12,7 @@ import { register } from "./controllers/auth.js";
 import { createPost } from "./controllers/post.js";
 import { verifyToken } from "./middleware/auth.js";
 import authRouter from "./routes/auth.js";
+import postRouter from "./routes/post.js";
 import userRouter from "./routes/user.js";
 // CONFIGURATIONs
 const __filename = fileURLToPath(import.meta.url)
@@ -47,6 +48,7 @@ app.use("/post/createpost", verifyToken, upload.single("picture"),createPost)
 
 app.use("/auth", authRouter)
 app.use("/users", userRouter)
+app.use("/post", postRouter)
 const PORT = process.env.PORT || 6001;
 mongoose
   .connect(process.env.MONGO_URL, {
