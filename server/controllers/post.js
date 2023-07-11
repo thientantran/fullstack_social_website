@@ -33,3 +33,14 @@ export const getFeedPosts = async(req, res) => {
     res.status(404).json({error: err.message})
   }
 }
+export const getUserPosts = async(req, res) => {
+  try {
+    const {userId} = req.params;
+    console.log(userId)
+    const posts = await Post.find({userId:userId})
+    console.log(posts)
+    res.status(200).json(posts)
+  } catch (err) {
+    res.status(404).json({error: err.message})
+  }
+}
