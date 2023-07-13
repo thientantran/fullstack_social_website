@@ -20,7 +20,7 @@ import {
   useTheme,
 } from "@mui/material";
 import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 import { setMode } from "../Store";
@@ -31,6 +31,7 @@ export default function Navbar() {
   const navigate = useNavigate();
   const theme = useTheme();
   const dispatch = useDispatch();
+  const user = useSelector((state) => state.user);
   const neutralLight = theme.palette.neutral.light;
   const dark = theme.palette.neutral.dark;
   const background = theme.palette.background.default;
@@ -38,7 +39,7 @@ export default function Navbar() {
   const alt = theme.palette.background.alt;
   const isNonMobileScreens = useMediaQuery("(min-width: 1000px)");
 
-  const fullName = "Tan Tran";
+  const fullName = `${user.firstName} ${user.lastName}`;
   return (
     <FlexBetween padding="1rem 6%" bgcolor={alt}>
       {/* LEFT HAND */}
