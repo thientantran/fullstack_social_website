@@ -20,18 +20,20 @@ import {
   useTheme,
 } from "@mui/material";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
+import { setMode } from "../Store";
 import FlexBetween from "../components/FlexBetween";
 
 export default function Navbar() {
   const [isMobileMenuToggled, setIsMobileMenuToggled] = useState(false);
   const navigate = useNavigate();
   const theme = useTheme();
+  const dispatch = useDispatch();
   const neutralLight = theme.palette.neutral.light;
   const dark = theme.palette.neutral.dark;
   const background = theme.palette.background.default;
-  console.log(background);
   const primaryLight = theme.palette.primary.light;
   const alt = theme.palette.background.alt;
   const isNonMobileScreens = useMediaQuery("(min-width: 1000px)");
@@ -75,7 +77,7 @@ export default function Navbar() {
       {/* RIGHT HAND - DESKTOP */}
       {isNonMobileScreens ? (
         <FlexBetween gap="2rem">
-          <IconButton>
+          <IconButton onClick={() => dispatch(setMode())}>
             {theme.palette.mode === "dark" ? (
               <DarkMode sx={{ fontSize: "25px" }} />
             ) : (
@@ -144,7 +146,7 @@ export default function Navbar() {
             alignItems="center"
             gap="3rem"
           >
-            <IconButton>
+            <IconButton onClick={() => dispatch(setMode())}>
               {theme.palette.mode === "dark" ? (
                 <DarkMode sx={{ fontSize: "25px" }} />
               ) : (
