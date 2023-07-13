@@ -10,9 +10,11 @@ import {
 import { Formik } from "formik";
 import React, { useState } from "react";
 import Dropzone from "react-dropzone";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import * as yup from "yup";
 
+import { setLogin } from "../Store";
 import FlexBetween from "./FlexBetween";
 // tạo 2 schema cho register và login
 const registerSchema = yup.object().shape({
@@ -47,13 +49,64 @@ const initialValuesLogin = {
 export default function Form() {
   const theme = useTheme();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [pageType, setPageType] = useState("login");
   const isLogin = pageType === "login";
   const isNonMobile = useMediaQuery("(min-width:600px)");
+  const [errorMessage, setErrorMessage] = useState(null);
+  const register = async (values, onSubmitProps) => {
+    // this allows us to send form info with image
+    const formData = new FormData();
+    for (const value in values) {
+      formData.append(value, values[value]);
+    }
+    formData.append("picturePath", values.picture.name);
+
+    const savedUserResponse = await fetch(
+      "http://localhost:6060/auth/register",
+      {
+        method: "POST",
+        body: formData,
+      }
+    );
+    const savedUser = await savedUserResponse.json();
+    onSubmitProps.resetForm();
+
+    if (savedUser) {
+      setPageType("login");
+    }
+  };
+
+  const login = async (values, onSubmitProps) => {
+    const loggedInResponse = await fetch("http://localhost:6060/auth/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(values),
+    });
+    const loggedIn = await loggedInResponse.json();
+    console.log(loggedIn);
+    if (loggedInResponse.status === 400) {
+      setErrorMessage(loggedIn.message);
+    } else {
+      // console.log(loggedIn);
+      onSubmitProps.resetForm();
+      if (loggedIn) {
+        dispatch(
+          setLogin({
+            user: loggedIn.user,
+            token: loggedIn.token,
+          })
+        );
+        navigate("/home");
+      }
+    }
+  };
 
   // chú ý: chỗ hàm này để đặt vào onSubmit của formik, còn cái file có 1 cái handleSubmit do thằng formik cung cấp
-  const handleFormSubmit = (values) => {
-    console.log(values);
+
+  const handleFormSubmit = async (values, onSubmitProps) => {
+    if (isLogin) await login(values, onSubmitProps);
+    if (!isLogin) await register(values, onSubmitProps);
   };
   return (
     <Formik
@@ -184,6 +237,11 @@ export default function Form() {
               sx={{ gridColumn: "span 4" }}
             />
           </Box>
+          {errorMessage !== null && (
+            <Typography color="red" paddingTop="1rem">
+              {errorMessage}
+            </Typography>
+          )}
 
           {/* BUTTON */}
           <Box>
