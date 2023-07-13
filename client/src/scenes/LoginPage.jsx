@@ -13,7 +13,9 @@ export default function LoginPage() {
         p="1rem 6%"
         textAlign="center"
       >
-        <Typography>Sociopedia</Typography>
+        <Typography fontWeight="bold" fontSize="32px" color="primary">
+          Sociopedia
+        </Typography>
       </Box>
       <Box
         width={isNonMobileScreens ? "50%" : "93%"}
