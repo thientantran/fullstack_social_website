@@ -23,7 +23,7 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
-import { setMode } from "../Store";
+import { setLogout, setMode } from "../Store";
 import FlexBetween from "../components/FlexBetween";
 
 export default function Navbar() {
@@ -109,7 +109,7 @@ export default function Navbar() {
               <MenuItem value={fullName}>
                 <Typography>{fullName}</Typography>
               </MenuItem>
-              <MenuItem>Log Out</MenuItem>
+              <MenuItem onClick={() => dispatch(setLogout())}>Log Out</MenuItem>
             </Select>
           </FormControl>
         </FlexBetween>
@@ -178,7 +178,9 @@ export default function Navbar() {
                 <MenuItem value={fullName}>
                   <Typography>{fullName}</Typography>
                 </MenuItem>
-                <MenuItem>Log Out</MenuItem>
+                <MenuItem onClick={() => dispatch(setLogout())}>
+                  Log Out
+                </MenuItem>
               </Select>
             </FormControl>
           </FlexBetween>
