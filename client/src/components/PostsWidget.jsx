@@ -1,5 +1,12 @@
 import React from "react";
 
+import PostWidget from "./PostWidget";
+
 export default function PostsWidget() {
-  return <div>PostsWidget</div>;
+  return (
+    <>
+      <PostWidget />
+      <PostWidget />
+    </>
+  );
 }
