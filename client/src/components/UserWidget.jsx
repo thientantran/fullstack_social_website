@@ -5,20 +5,61 @@ import {
   WorkOutline,
 } from "@mui/icons-material";
 import { Box, Divider, IconButton, Typography, useTheme } from "@mui/material";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 import FlexBetween from "./FlexBetween";
 import UserImage from "./UserImage";
 import WidgetWrapper from "./WidgetWrapper";
 
-export default function UserWidget() {
+// eslint-disable-next-line react/prop-types
+export default function UserWidget({ userId, picturePath }) {
+  console.log(picturePath);
+  const navigate = useNavigate();
   const theme = useTheme();
+  const token = useSelector((state) => state.token);
+  const [user, setUser] = useState(null);
+  const getUser = async () => {
+    try {
+      const response = await fetch(`http://localhost:6060/users/${userId}`, {
+        method: "GET",
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      const data = await response.json();
+      setUser(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getUser();
+  }, []);
+  if (!user) {
+    return null;
+  }
+  // nếu ko có user thì return về null lun, sẽ ko render ra gì, đợi gọi api đc thì ok
+  const {
+    firstName,
+    lastName,
+    location,
+    occupation,
+    viewedProfile,
+    impressions,
+    friends,
+  } = user;
+
   return (
     <WidgetWrapper>
       {/* FIRST ROW */}
-      <FlexBetween gap="0.5rem" pb="1.1rem">
+      <FlexBetween
+        gap="0.5rem"
+        pb="1.1rem"
+        onClick={() => navigate(`/profile/${userId}`)}
+      >
         <FlexBetween gap="1rem">
-          <UserImage />
+          <UserImage image={picturePath} />
           <Box>
             <Typography
               variant="h4"
@@ -29,10 +70,10 @@ export default function UserWidget() {
                 cursor: "pointer",
               }}
             >
-              User Name
+              {firstName} {lastName}
             </Typography>
             <Typography color={theme.palette.neutral.medium}>
-              10 friends
+              {friends.length} friends
             </Typography>
           </Box>
         </FlexBetween>
@@ -50,7 +91,9 @@ export default function UserWidget() {
             fontSize="large"
             sx={{ color: theme.palette.neutral.main }}
           />
-          <Typography color={theme.palette.neutral.medium}>Địa chỉ</Typography>
+          <Typography color={theme.palette.neutral.medium}>
+            {location}
+          </Typography>
         </Box>
         <Box display="flex" alignItems="center" gap="1rem">
           <WorkOutline
@@ -58,7 +101,7 @@ export default function UserWidget() {
             sx={{ color: theme.palette.neutral.main }}
           />
           <Typography color={theme.palette.neutral.medium}>
-            Công việc
+            {occupation}
           </Typography>
         </Box>
       </Box>
@@ -70,7 +113,7 @@ export default function UserWidget() {
             Who is viewed your profile
           </Typography>
           <Typography color={theme.palette.neutral.main} fontWeight="500">
-            12345
+            {viewedProfile}
           </Typography>
         </FlexBetween>
         <FlexBetween mb="0.5rem">
@@ -78,7 +121,7 @@ export default function UserWidget() {
             Impressions your posts
           </Typography>
           <Typography color={theme.palette.neutral.main} fontWeight="500">
-            12345
+            {impressions}
           </Typography>
         </FlexBetween>
       </Box>
