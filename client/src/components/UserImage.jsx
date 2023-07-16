@@ -11,7 +11,11 @@ export default function UserImage({
         style={{ objectFit: "cover", borderRadius: "50%" }}
         height={size}
         width={size}
-        src={image}
+        src={
+          image.includes("http")
+            ? image
+            : `http://localhost:6060/assets/${image}`
+        }
         alt="jisoo"
       />
     </Box>
