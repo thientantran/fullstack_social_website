@@ -19,20 +19,46 @@ import {
 } from "@mui/material";
 import React, { useState } from "react";
 import Dropzone from "react-dropzone";
+import { useDispatch, useSelector } from "react-redux";
 
+import { setPosts } from "../Store";
 import FlexBetween from "./FlexBetween";
 import UserImage from "./UserImage";
 import WidgetWrapper from "./WidgetWrapper";
-export default function MyPostWidget() {
+// eslint-disable-next-line react/prop-types
+export default function MyPostWidget({ picturePath }) {
   const theme = useTheme();
-  const [isImage, setIsImage] = useState(true);
+  const [isImage, setIsImage] = useState(false);
   const [image, setImage] = useState(null);
   const [post, setPost] = useState("");
   const isNonMobileScreens = useMediaQuery("(min-width: 1000px)");
+  const dispatch = useDispatch();
+  const { _id } = useSelector((state) => state.user);
+  const token = useSelector((state) => state.token);
+
+  const handlePost = async () => {
+    const formData = new FormData();
+    formData.append("userId", _id);
+    formData.append("description", post);
+    if (image) {
+      formData.append("picture", image);
+      formData.append("picturePath", image.name);
+    }
+    const response = await fetch(`http://localhost:6060/post/createpost`, {
+      method: "POST",
+      headers: { Authorization: `Bearer ${token}` },
+      body: formData,
+    });
+    const posts = await response.json();
+    dispatch(setPosts({ posts }));
+    setImage(null);
+    setPost("");
+    setIsImage(false);
+  };
   return (
     <WidgetWrapper>
       <FlexBetween gap="1.5rem">
-        <UserImage />
+        <UserImage image={picturePath} />
         <InputBase
           onChange={(e) => setPost(e.target.value)}
           value={post} // useState ở trên
@@ -145,6 +171,7 @@ export default function MyPostWidget() {
 
         <Button
           disabled={!post}
+          onClick={handlePost}
           sx={{
             color: theme.palette.background.alt,
             backgroundColor: theme.palette.primary.main,
