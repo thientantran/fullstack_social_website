@@ -49,7 +49,7 @@ export default function ProfilePage() {
         >
           <MyPostWidget picturePath={user.picturePath} />
           <Box m="2rem 0" />
-          <PostsWidget />
+          <PostsWidget userId={userId} isProfile />
         </Box>
       </Box>
     </Box>
