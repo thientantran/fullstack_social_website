@@ -7,8 +7,9 @@ import {
 } from "@mui/icons-material";
 import { Box, Divider, IconButton, Typography, useTheme } from "@mui/material";
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
+import { setPost } from "../Store";
 import FlexBetween from "./FlexBetween";
 import Friend from "./Friend";
 import WidgetWrapper from "./WidgetWrapper";
@@ -19,6 +20,25 @@ export default function PostWidget({ post }) {
   const loggedUserId = useSelector((state) => state.user._id);
   const isLiked = Boolean(post.likes[loggedUserId]);
   const likeCounts = Object.keys(post.likes).length;
+  const token = useSelector((state) => state.token);
+  const dispatch = useDispatch();
+
+  const patchLike = async () => {
+    const responese = await fetch(
+      `http://localhost:6060/post/${post._id}/like`,
+      {
+        method: "PATCH",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ userId: loggedUserId }),
+      }
+    );
+    const updatedPost = await responese.json();
+    console.log(updatedPost);
+    dispatch(setPost({ post: updatedPost }));
+  };
   return (
     <WidgetWrapper m="2rem 0">
       <Friend
@@ -44,7 +64,7 @@ export default function PostWidget({ post }) {
         <FlexBetween gap="1rem">
           {/* LIKE */}
           <FlexBetween gap="0.3rem">
-            <IconButton>
+            <IconButton onClick={patchLike}>
               {isLiked ? (
                 <FavoriteOutlined sx={{ color: theme.palette.primary.main }} />
               ) : (
