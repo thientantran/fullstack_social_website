@@ -21,7 +21,12 @@ export default function PostWidget({ post }) {
   const likeCounts = Object.keys(post.likes).length;
   return (
     <WidgetWrapper m="2rem 0">
-      <Friend />
+      <Friend
+        postUserId={post.userId}
+        name={`${post.firstName} ${post.lastName}`}
+        subtitle={post.location}
+        userPicturePath={post.userPicturePath}
+      />
       <Typography color={theme.palette.neutral.main} sx={{ m: "1rem 0" }}>
         {post.description}
       </Typography>

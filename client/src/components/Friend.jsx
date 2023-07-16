@@ -1,16 +1,22 @@
+/* eslint-disable react/prop-types */
 import { PersonAddOutlined, PersonRemoveOutlined } from "@mui/icons-material";
 import { Box, IconButton, Typography, useTheme } from "@mui/material";
 
 import FlexBetween from "./FlexBetween";
 import UserImage from "./UserImage";
 
-export default function Friend() {
+export default function Friend({
+  postUserId,
+  name,
+  subtitle,
+  userPicturePath,
+}) {
   const theme = useTheme();
   const isFriend = false;
   return (
     <FlexBetween>
       <FlexBetween gap="1rem">
-        <UserImage size="55px" />
+        <UserImage size="55px" image={userPicturePath} />
         <Box>
           <Typography
             color={theme.palette.neutral.main}
@@ -23,10 +29,10 @@ export default function Friend() {
               },
             }}
           >
-            Friend Name
+            {name}
           </Typography>
           <Typography color={theme.palette.neutral.medium} fontSize="0.75rem">
-            Subtitle
+            {subtitle}
           </Typography>
         </Box>
       </FlexBetween>
