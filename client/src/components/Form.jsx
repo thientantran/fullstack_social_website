@@ -84,7 +84,6 @@ export default function Form() {
       body: JSON.stringify(values),
     });
     const loggedIn = await loggedInResponse.json();
-    console.log(loggedIn);
     if (loggedInResponse.status === 400) {
       setErrorMessage(loggedIn.message);
     } else {

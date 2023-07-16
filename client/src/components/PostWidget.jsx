@@ -36,7 +36,6 @@ export default function PostWidget({ post }) {
       }
     );
     const updatedPost = await responese.json();
-    console.log(updatedPost);
     dispatch(setPost({ post: updatedPost }));
   };
   return (

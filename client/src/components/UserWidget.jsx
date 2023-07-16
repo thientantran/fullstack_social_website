@@ -15,7 +15,6 @@ import WidgetWrapper from "./WidgetWrapper";
 
 // eslint-disable-next-line react/prop-types
 export default function UserWidget({ userId, picturePath }) {
-  console.log(picturePath);
   const navigate = useNavigate();
   const theme = useTheme();
   const token = useSelector((state) => state.token);

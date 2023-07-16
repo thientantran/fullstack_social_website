@@ -1,4 +1,4 @@
-import { Stack, Typography, useTheme } from "@mui/material";
+import { Box, Typography, useTheme } from "@mui/material";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -38,8 +38,8 @@ export default function FriendListWidget({ userId }) {
       >
         Friend List
       </Typography>
-      <Stack direction="column" gap="1.5rem">
-        {friends.map((friend) => (
+      <Box display="flex" flexDirection="column" gap="1.5rem">
+        {friends.map((friend, index) => (
           <Friend
             key={friend._id}
             postUserId={friend._id}
@@ -48,7 +48,7 @@ export default function FriendListWidget({ userId }) {
             userPicturePath={friend.picturePath}
           />
         ))}
-      </Stack>
+      </Box>
     </WidgetWrapper>
   );
 }
