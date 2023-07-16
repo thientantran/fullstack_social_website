@@ -19,6 +19,7 @@ export default function Friend({
   const userId = useSelector((state) => state.user._id);
   const token = useSelector((state) => state.token);
   const dispatch = useDispatch();
+  const loggedUserId = useSelector((state) => state.user._id);
   const patchFriend = async () => {
     const response = await fetch(
       `http://localhost:6060/users/${userId}/${postUserId}`,
@@ -56,13 +57,17 @@ export default function Friend({
           </Typography>
         </Box>
       </FlexBetween>
-      <IconButton onClick={patchFriend}>
-        {isFriend ? (
-          <PersonRemoveOutlined sx={{ color: theme.palette.primary.dark }} />
-        ) : (
-          <PersonAddOutlined sx={{ color: theme.palette.primary.dark }} />
-        )}
-      </IconButton>
+      {loggedUserId === postUserId ? (
+        <></>
+      ) : (
+        <IconButton onClick={patchFriend}>
+          {isFriend ? (
+            <PersonRemoveOutlined sx={{ color: theme.palette.primary.dark }} />
+          ) : (
+            <PersonAddOutlined sx={{ color: theme.palette.primary.dark }} />
+          )}
+        </IconButton>
+      )}
     </FlexBetween>
   );
 }
