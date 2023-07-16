@@ -1,4 +1,7 @@
 import { Box, useMediaQuery } from "@mui/material";
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
 
 import FriendListWidget from "../components/FriendListWidget";
 import MyPostWidget from "../components/MyPostWidget";
@@ -7,6 +10,24 @@ import UserWidget from "../components/UserWidget";
 import Navbar from "./Navbar";
 export default function ProfilePage() {
   const isNonMobileScreens = useMediaQuery("(min-width:1000px)");
+  const { userId } = useParams();
+  const token = useSelector((state) => state.token);
+  const [user, setUser] = useState(null);
+
+  const getUser = async () => {
+    const response = await fetch(`http://localhost:6060/users/${userId}`, {
+      method: "GET",
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    const data = await response.json();
+    setUser(data);
+  };
+  useEffect(() => {
+    getUser();
+  }, [userId]);
+  if (!user) {
+    return null;
+  }
   return (
     <Box>
       <Navbar />
@@ -18,15 +39,15 @@ export default function ProfilePage() {
         justifyContent="center"
       >
         <Box flexBasis={isNonMobileScreens ? "26%" : undefined}>
-          <UserWidget />
+          <UserWidget userId={user._id} picturePath={user.picturePath} />
           <Box m="2rem 0" />
-          <FriendListWidget />
+          <FriendListWidget userId={user._id} />
         </Box>
         <Box
           flexBasis={isNonMobileScreens ? "42%" : undefined}
           mt={isNonMobileScreens ? undefined : "2rem"}
         >
-          <MyPostWidget />
+          <MyPostWidget picturePath={user.picturePath} />
           <Box m="2rem 0" />
           <PostsWidget />
         </Box>

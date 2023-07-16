@@ -2,6 +2,7 @@
 import { PersonAddOutlined, PersonRemoveOutlined } from "@mui/icons-material";
 import { Box, IconButton, Typography, useTheme } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 import { setFriends } from "../Store";
 import FlexBetween from "./FlexBetween";
@@ -20,6 +21,7 @@ export default function Friend({
   const token = useSelector((state) => state.token);
   const dispatch = useDispatch();
   const loggedUserId = useSelector((state) => state.user._id);
+  const navigate = useNavigate();
   const patchFriend = async () => {
     const response = await fetch(
       `http://localhost:6060/users/${userId}/${postUserId}`,
@@ -38,7 +40,11 @@ export default function Friend({
     <FlexBetween>
       <FlexBetween gap="1rem">
         <UserImage size="55px" image={userPicturePath} />
-        <Box>
+        <Box
+          onClick={() => {
+            navigate(`/profile/${postUserId}`);
+          }}
+        >
           <Typography
             color={theme.palette.neutral.main}
             variant="h5"

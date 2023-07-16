@@ -27,7 +27,7 @@ export default function FriendListWidget({ userId }) {
   };
   useEffect(() => {
     getFriends();
-  }, []);
+  }, [userId]);
   return (
     <WidgetWrapper>
       <Typography
