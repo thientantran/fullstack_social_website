@@ -13,7 +13,7 @@ export default function ProfilePage() {
   const { userId } = useParams();
   const token = useSelector((state) => state.token);
   const [user, setUser] = useState(null);
-
+  const loggedUserId = useSelector((state) => state.user._id);
   const getUser = async () => {
     const response = await fetch(`http://localhost:6060/users/${userId}`, {
       method: "GET",
@@ -47,8 +47,15 @@ export default function ProfilePage() {
           flexBasis={isNonMobileScreens ? "42%" : undefined}
           mt={isNonMobileScreens ? undefined : "2rem"}
         >
-          <MyPostWidget picturePath={user.picturePath} />
-          <Box m="2rem 0" />
+          {loggedUserId === userId ? (
+            <>
+              <MyPostWidget picturePath={user.picturePath} />
+              <Box m="2rem 0" />
+            </>
+          ) : (
+            <></>
+          )}
+
           <PostsWidget userId={userId} isProfile />
         </Box>
       </Box>

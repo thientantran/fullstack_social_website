@@ -56,7 +56,7 @@ export default function MyPostWidget({ picturePath }) {
     setIsImage(false);
   };
   return (
-    <WidgetWrapper>
+    <WidgetWrapper marginBottom="2rem">
       <FlexBetween gap="1.5rem">
         <UserImage image={picturePath} />
         <InputBase

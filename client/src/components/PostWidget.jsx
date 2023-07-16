@@ -39,7 +39,7 @@ export default function PostWidget({ post }) {
     dispatch(setPost({ post: updatedPost }));
   };
   return (
-    <WidgetWrapper m="2rem 0">
+    <WidgetWrapper m="0 2rem 2rem 2rem">
       <Friend
         postUserId={post.userId}
         name={`${post.firstName} ${post.lastName}`}
