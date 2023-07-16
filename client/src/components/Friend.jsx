@@ -1,7 +1,9 @@
 /* eslint-disable react/prop-types */
 import { PersonAddOutlined, PersonRemoveOutlined } from "@mui/icons-material";
 import { Box, IconButton, Typography, useTheme } from "@mui/material";
+import { useDispatch, useSelector } from "react-redux";
 
+import { setFriends } from "../Store";
 import FlexBetween from "./FlexBetween";
 import UserImage from "./UserImage";
 
@@ -12,7 +14,25 @@ export default function Friend({
   userPicturePath,
 }) {
   const theme = useTheme();
-  const isFriend = false;
+  const friends = useSelector((state) => state.user.friends);
+  const isFriend = friends.find((friend) => friend._id === postUserId);
+  const userId = useSelector((state) => state.user._id);
+  const token = useSelector((state) => state.token);
+  const dispatch = useDispatch();
+  const patchFriend = async () => {
+    const response = await fetch(
+      `http://localhost:6060/users/${userId}/${postUserId}`,
+      {
+        method: "PATCH",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-type": "application/json",
+        },
+      }
+    );
+    const data = await response.json();
+    dispatch(setFriends({ friends: data }));
+  };
   return (
     <FlexBetween>
       <FlexBetween gap="1rem">
@@ -36,7 +56,7 @@ export default function Friend({
           </Typography>
         </Box>
       </FlexBetween>
-      <IconButton>
+      <IconButton onClick={patchFriend}>
         {isFriend ? (
           <PersonRemoveOutlined sx={{ color: theme.palette.primary.dark }} />
         ) : (
