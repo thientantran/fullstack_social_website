@@ -14,8 +14,8 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import * as yup from "yup";
 
-import { setLogin } from "../Store";
 import FlexBetween from "./FlexBetween";
+import { setLogin } from "../Store";
 // tạo 2 schema cho register và login
 const registerSchema = yup.object().shape({
   firstName: yup.string().required("required"),

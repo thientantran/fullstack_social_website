@@ -56,7 +56,7 @@ export default function Navbar() {
           }}
           onClick={() => navigate("/home")}
         >
-          Sociopedia
+          TAN TON TEN
         </Typography>
 
         {isNonMobileScreens && (

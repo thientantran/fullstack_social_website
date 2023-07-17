@@ -21,10 +21,10 @@ import React, { useState } from "react";
 import Dropzone from "react-dropzone";
 import { useDispatch, useSelector } from "react-redux";
 
-import { setPosts } from "../Store";
 import FlexBetween from "./FlexBetween";
 import UserImage from "./UserImage";
 import WidgetWrapper from "./WidgetWrapper";
+import { setPosts } from "../Store";
 // eslint-disable-next-line react/prop-types
 export default function MyPostWidget({ picturePath }) {
   const theme = useTheme();

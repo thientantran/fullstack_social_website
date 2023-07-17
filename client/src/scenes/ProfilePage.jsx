@@ -3,11 +3,11 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 
+import Navbar from "./Navbar";
 import FriendListWidget from "../components/FriendListWidget";
 import MyPostWidget from "../components/MyPostWidget";
 import PostsWidget from "../components/PostsWidget";
 import UserWidget from "../components/UserWidget";
-import Navbar from "./Navbar";
 export default function ProfilePage() {
   const isNonMobileScreens = useMediaQuery("(min-width:1000px)");
   const { userId } = useParams();

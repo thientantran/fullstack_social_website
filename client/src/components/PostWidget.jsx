@@ -9,10 +9,10 @@ import { Box, Divider, IconButton, Typography, useTheme } from "@mui/material";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import { setPost } from "../Store";
 import FlexBetween from "./FlexBetween";
 import Friend from "./Friend";
 import WidgetWrapper from "./WidgetWrapper";
+import { setPost } from "../Store";
 
 export default function PostWidget({ post }) {
   const [isComment, setIsComment] = useState(false);

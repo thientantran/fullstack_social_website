@@ -2,8 +2,8 @@ import { Stack } from "@mui/material";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import { setPosts } from "../Store";
 import PostWidget from "./PostWidget";
+import { setPosts } from "../Store";
 
 // eslint-disable-next-line react/prop-types
 export default function PostsWidget({ userId, isProfile = false }) {

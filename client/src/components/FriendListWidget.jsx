@@ -2,9 +2,9 @@ import { Box, Typography, useTheme } from "@mui/material";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import { setFriends } from "../Store";
 import Friend from "./Friend";
 import WidgetWrapper from "./WidgetWrapper";
+import { setFriends } from "../Store";
 
 // eslint-disable-next-line react/prop-types
 export default function FriendListWidget({ userId }) {

@@ -4,9 +4,9 @@ import { Box, IconButton, Typography, useTheme } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
-import { setFriends } from "../Store";
 import FlexBetween from "./FlexBetween";
 import UserImage from "./UserImage";
+import { setFriends } from "../Store";
 
 export default function Friend({
   postUserId,
